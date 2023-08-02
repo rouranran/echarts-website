@@ -59,6 +59,8 @@ define(function (require) {
         'echarts/src': `/echarts@${version}/${srcFolder}`
     };
 
+    let pkgList = []
+
     function resolveNpmDependencies(pkg, version) {
         return fetch(`${jsDelivrBase}/${pkg}@${version}/package.json`, { mode: 'cors' })
             .then(response => response.json())
@@ -73,6 +75,7 @@ define(function (require) {
                 for (let pkgName in pkgCfg.dependencies) {
                     var depVersion = pkgCfg.dependencies[pkgName];
                     pathsConfig[pkgName] = `/${pkgName}@${depVersion}`;
+                    pkgList.push({pkgName, depVersion})
                     promises.push(resolveNpmDependencies(pkgName, depVersion));
                 }
                 return Promise.all(promises);
@@ -80,7 +83,9 @@ define(function (require) {
     }
 
     resolveNpmDependencies('echarts', version)
-        .then(startRollup)
+        .then(startRollup).then(()=>{
+            console.log(pkgList)
+        })
     // Loading scripts and build
 
     function startRollup() {

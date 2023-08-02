@@ -78,11 +78,9 @@ var RAW_DATA_DIMENSIONS = [
   'ID'
 ];
 $.when(
+  $.getScript('/echarts-website/npm/echarts-stat@1.2.0/dist/ecStat.min.js'),
   $.getScript(
-    'https://fastly.jsdelivr.net/npm/echarts-stat@1.2.0/dist/ecStat.min.js'
-  ),
-  $.getScript(
-    'https://fastly.jsdelivr.net/npm/echarts-simple-transform@1.0.0/dist/ecSimpleTransform.min.js'
+    '/echarts-website/npm/echarts-simple-transform@1.0.0/dist/ecSimpleTransform.min.js'
   )
 ).done(function () {
   init();
